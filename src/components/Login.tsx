@@ -47,8 +47,12 @@ export function Login({ onSuccess }: LoginProps) {
 
   const getErrorMessage = (error: LoginError): string => {
     switch (error.code) {
-      case 'VALIDATION_ERROR':
-        return error.message;
+      case 'VALIDATION_ERROR_EMAIL_REQUIRED':
+        return t('login.errors.emailRequired');
+      case 'VALIDATION_ERROR_PASSWORD_REQUIRED':
+        return t('login.errors.passwordRequired');
+      case 'VALIDATION_ERROR_EMAIL_INVALID':
+        return t('login.errors.emailInvalid');
       case 'INVALID_CREDENTIALS':
       case 'UNAUTHORIZED':
         return t('login.errors.invalidCredentials');

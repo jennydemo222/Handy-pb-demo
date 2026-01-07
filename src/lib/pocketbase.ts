@@ -1,8 +1,11 @@
 import PocketBase from 'pocketbase';
 
+// Configuration
+const POCKETBASE_URL = import.meta.env.VITE_POCKETBASE_URL || 'http://127.0.0.1:8090';
+const USERS_COLLECTION = import.meta.env.VITE_POCKETBASE_USERS_COLLECTION || 'users';
+
 // Initialize PocketBase client
-// Replace with your actual PocketBase server URL
-const pb = new PocketBase(import.meta.env.VITE_POCKETBASE_URL || 'http://127.0.0.1:8090');
+const pb = new PocketBase(POCKETBASE_URL);
 
 // Custom error types for better error handling
 export class LoginError extends Error {
@@ -33,6 +36,16 @@ export interface LoginResult {
 }
 
 /**
+ * Validates email format using a more comprehensive regex pattern
+ * Based on RFC 5322 simplified pattern
+ */
+function isValidEmail(email: string): boolean {
+  // More comprehensive email validation pattern
+  const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+  return emailRegex.test(email);
+}
+
+/**
  * Login function with comprehensive error handling
  * @param credentials - User email and password
  * @returns LoginResult with success status and user data or error details
@@ -43,28 +56,27 @@ export async function login(credentials: LoginCredentials): Promise<LoginResult>
     if (!credentials.email || !credentials.email.trim()) {
       throw new LoginError(
         'Email is required',
-        'VALIDATION_ERROR'
+        'VALIDATION_ERROR_EMAIL_REQUIRED'
       );
     }
 
     if (!credentials.password || !credentials.password.trim()) {
       throw new LoginError(
         'Password is required',
-        'VALIDATION_ERROR'
+        'VALIDATION_ERROR_PASSWORD_REQUIRED'
       );
     }
 
-    // Basic email format validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(credentials.email)) {
+    // Email format validation
+    if (!isValidEmail(credentials.email)) {
       throw new LoginError(
         'Please enter a valid email address',
-        'VALIDATION_ERROR'
+        'VALIDATION_ERROR_EMAIL_INVALID'
       );
     }
 
     // Attempt authentication
-    const authData = await pb.collection('users').authWithPassword(
+    const authData = await pb.collection(USERS_COLLECTION).authWithPassword(
       credentials.email,
       credentials.password
     );

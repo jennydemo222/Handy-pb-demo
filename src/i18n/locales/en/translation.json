@@ -424,7 +424,9 @@
     "loginButton": "Login",
     "loggingIn": "Logging in...",
     "errors": {
-      "validation": "Please check your input",
+      "emailRequired": "Email is required",
+      "passwordRequired": "Password is required",
+      "emailInvalid": "Please enter a valid email address",
       "invalidCredentials": "Invalid email or password. Please try again.",
       "accountDisabled": "Your account has been disabled. Please contact support.",
       "rateLimited": "Too many login attempts. Please wait a few minutes and try again.",
