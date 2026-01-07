@@ -416,5 +416,24 @@
   },
   "overlay": {
     "transcribing": "Transcribing..."
+  },
+  "login": {
+    "title": "Login",
+    "email": "Email",
+    "password": "Password",
+    "loginButton": "Login",
+    "loggingIn": "Logging in...",
+    "errors": {
+      "emailRequired": "Email is required",
+      "passwordRequired": "Password is required",
+      "emailInvalid": "Please enter a valid email address",
+      "invalidCredentials": "Invalid email or password. Please try again.",
+      "accountDisabled": "Your account has been disabled. Please contact support.",
+      "rateLimited": "Too many login attempts. Please wait a few minutes and try again.",
+      "networkError": "Unable to connect to the server. Please check your internet connection.",
+      "timeoutError": "Request timed out. Please try again.",
+      "serverError": "Server error. Please try again later.",
+      "unknownError": "An unexpected error occurred. Please try again."
+    }
   }
 }
